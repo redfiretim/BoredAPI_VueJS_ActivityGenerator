@@ -1,14 +1,21 @@
 <template>
   <div id="app">
-    <p>Hello Tim :)</p>
+    <TheNavigationBar/>
+    <router-view />
   </div>
 </template>
 
 
 
 <script>
+import TheNavigationBar from './components/TheNavigationBar';
+
+
 export default {
-  
+  name: 'App',
+  components: {
+    TheNavigationBar,
+  }
 }
 
 </script>

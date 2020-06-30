@@ -13,13 +13,16 @@
 
 You need the following for this project:
 - npm (package manager) 
-<!-- I used npm version 6.13.4 -->
+(I used npm version 6.13.4)
 - VueJS
-<!-- I used version 2.6.11 -->
+(I used version 2.6.11)
 - Vue CLI (command line interface)
-<!-- I used version 4.4.4 -->
+(I used version 4.4.4)
 - Vue Router
-<!-- I used version 3.2.0 -->
+(I used version 3.2.0)
+- optional plugins
+    - VueJS browser plugin
+    - Vetur plugin for VScode
 
 
 ------------------------------------------------------
@@ -33,9 +36,6 @@ npm install vue
 
 <!-- install VueJS Command Line Interface -->
 npm install -g @vue/cli
-
-<!-- optional plugins -->
-In addition you can optionally install VueJS browser plugin and Vetur plugin for VScode
 
 <!-- create new project -->
 vue create activity_generator_app
