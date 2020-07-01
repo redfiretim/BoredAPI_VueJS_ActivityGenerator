@@ -33,6 +33,7 @@ npm install
 
 <!-- install VueJS -->
 npm install vue
+    - choose "Vue Router" at options at least.
 
 <!-- install VueJS Command Line Interface -->
 npm install -g @vue/cli
@@ -40,7 +41,11 @@ npm install -g @vue/cli
 <!-- create new project -->
 vue create activity_generator_app
 
-<!-- Remove al Vue demo project files -->
+<!-- install Axios for XMLHttpRequests requests -->
+cd activity_generator_app
+    npm install axios
+
+<!-- Remove al Vue demo project files --> (This step needs testing before comfirmation on accuracy!!)  -->
 
 <!-- Clone github repository to this directory  (This step needs testing before comfirmation on accuracy!!)  -->
 
