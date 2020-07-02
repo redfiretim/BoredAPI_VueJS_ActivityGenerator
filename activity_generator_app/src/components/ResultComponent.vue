@@ -4,7 +4,12 @@
     <div class="inside-result-container">
       <div class="activity-label">{{activityData.type}}</div>
       <div class="participants-label">Participants:</div>
-      <img :src="grey" />
+      <ul class="participants_icons">
+        <!-- Key fix used, because no other unique way to identify -->
+        <li v-for="(person, index) in peopleIcons" :key="`person-${index}`"> 
+          <img :src="person" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -23,7 +28,7 @@ export default {
     return {
       activityData: {},
       error: Boolean,
-      peopleIcons: [this.grey, this.grey, this.grey, this.grey, this.grey],
+      peopleIcons: [grey, grey, grey, grey, grey],
       grey: grey,
       mint: mint,
     };
@@ -32,18 +37,27 @@ export default {
       this.activityData = this.output
       this.error = this.errored
 
-      if(this.activityData.participants !== 0){
-        this.peopleIcons = () => {
-          for( let i=0; i<this.activityData.participants; i++){
-            this.peopleIcons = this.peopleIcons.splice(i,1, this.mint)
-          }
-        }
-      }
+      // if(this.activityData.participants !== 0){
+      //   this.peopleIcons = () => {
+      //     for( let i=0; i<this.activityData.participants; i++){
+      //       this.peopleIcons = this.peopleIcons.splice(i,1, this.mint)
+      //     }
+      //   }
+      // }
   },
   watch: {
     output: function(newVal, oldVal) {
         this.activityData = newVal
         console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+
+        if(this.activityData.participants !== 0){
+          this.peopleIcons = () => {
+            for( let i=0; i<this.activityData.participants; i++){
+              this.peopleIcons = this.peopleIcons.splice(i,1, this.mint)
+            }
+          }
+        }
+
     },
     errored: function(newVal) {
         this.error = newVal
