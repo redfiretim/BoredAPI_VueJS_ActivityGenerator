@@ -1,5 +1,10 @@
 <template>
-  <p>{{activityData}}</p>
+  <div class="container-result">
+    <div class="activity-title">{{activityData.activity}}</div>
+    <div class="result-border">
+
+    </div>
+  </div>
 </template>
 
 
@@ -35,4 +40,26 @@ export default {
 
 
 <style scoped>
+
+.container-result{
+  display: grid;
+  grid-template-rows: repeat(11, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  height: 100%;
+}
+
+.activity-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+  grid-column: span 10;
+  grid-row: 1fr;
+  justify-self: left;
+}
+
+.result-border{
+  border: solid 3px #a4a4a4;
+  grid-row: span 10;
+  grid-column: span 10;
+}
+
 </style>

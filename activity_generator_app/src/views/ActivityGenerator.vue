@@ -1,17 +1,16 @@
 <template>
-  <div class="activity-generator">
-    <div class="result-container">
-      <div class="loading-msg" v-if="loading === true">Loading...</div>
-      <ResultComponent 
-        :output="output.data" 
-        :errored="errored"
-        v-if="loading === false"
-      >
-      </ResultComponent>
+  <div class="container">
+    <div class="activity-generator">
+      <div class="result-container">
+        <div class="loading-border" v-if="loading === true">
+          <div class="loading-msg" data-text="Loading...">Loading...</div>
+        </div>
+        <ResultComponent :output="output.data" :errored="errored" v-if="loading === false"></ResultComponent>
+      </div>
+      <router-link to="/activitygenerator" v-if="loading === false">
+        <button v-on:click="generateNewActivity()">Generate activity</button>
+      </router-link>
     </div>
-    <router-link to="/activitygenerator" v-if="loading === false">
-      <button v-on:click="generateNewActivity()">Generate activity</button>
-    </router-link>
   </div>
 </template>
 
@@ -38,19 +37,20 @@ export default {
     this.generateNewActivity();
   },
   methods: {
-    generateNewActivity(){
-      this.loading = true
+    generateNewActivity() {
+      this.loading = true;
 
-      axios.get("http://www.boredapi.com/api/activity/")
+      axios
+        .get("http://www.boredapi.com/api/activity/")
         .then(response => {
-          this.output = response
+          this.output = response;
         })
         .catch(error => {
-          console.log(error)
-          this.errored = true
+          console.log(error);
+          this.errored = true;
         })
-        .finally(() => this.loading = false)
-    },
+      .finally(() => (this.loading = false));
+    }
   }
 };
 </script>
@@ -59,27 +59,27 @@ export default {
 
 
 <style scoped>
-
-.activity-generator{
-	display: grid;
-	grid-template-columns: 1 1 1;
-	grid-template-rows: 1 1 1;
-	justify-content: center;
-	padding-top: 20vh;
+.container {
+  min-width: 14rem;
+  max-width: 22rem;
+  padding-top: 5vh;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: auto;
 }
 
-.router-link-active{
-  grid-column: 2;
-	grid-row: 3;
+.router-link-active {
+  width: 97%;
 }
 
 button {
   background-color: #3cf1aa;
   border: solid 3px #a4a4a4;
-  padding: 20px;
+  padding: 15px;
   color: black;
   font-size: xx-large;
   font-weight: bold;
+  width: 100%;
 }
 
 button:hover {
@@ -91,12 +91,39 @@ button:active {
   outline: none;
 }
 
-.result-container{
-  border: solid 3px #a4a4a4;
+.result-container {
+  background-color: rgb(238, 238, 238);
   margin-bottom: 0.5rem;
-  width: 30%;
-  grid-column: 2;
-	grid-row: 2;
+/* height needs to be tweaked */
+  height: 50vh;  
 }
 
+.loading-border{
+  border:solid 3px #a4a4a4;
+  height: 100%;
+}
+
+.loading-msg {
+  margin: 7rem 0rem;
+  position: relative;
+  color: lightgrey;
+  font-weight: bold;
+}
+
+/* loading animation */
+.loading-msg:before {
+  content: attr(data-text);
+  position: absolute;
+  overflow: hidden;
+  max-width: 8rem;
+  height: 3rem;
+  white-space: nowrap;
+  color: #3cf1aa;
+  animation: loading 3s linear;
+}
+@keyframes loading {
+  0% {
+    max-width: 0;
+  }
+}
 </style>
