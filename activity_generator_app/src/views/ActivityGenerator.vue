@@ -92,7 +92,6 @@ button:active {
 }
 
 .result-container {
-  background-color: rgb(238, 238, 238);
   margin-bottom: 0.5rem;
 /* height needs to be tweaked */
   height: 50vh;  
