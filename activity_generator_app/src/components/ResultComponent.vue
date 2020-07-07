@@ -68,7 +68,7 @@ export default {
 .container-result {
   display: grid;
   grid-template-rows: repeat(11, 1fr);
-  max-height: 18rem;
+  max-height: 19rem;
 }
 
 .activity-title {
@@ -92,6 +92,7 @@ export default {
   grid-column-start: 7;
   grid-column-end: 11;
   padding: 5px;
+  margin-right: -0.5px;
 }
 
 .participants-label {

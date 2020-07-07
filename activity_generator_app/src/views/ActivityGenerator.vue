@@ -93,13 +93,10 @@ button:active {
 
 .result-container {
   margin-bottom: 0.5rem;
-/* height needs to be tweaked */
-  height: 50vh;  
 }
 
 .loading-border{
-  border:solid 3px #a4a4a4;
-  height: 100%;
+  height: 19rem;
 }
 
 .loading-msg {
@@ -107,6 +104,7 @@ button:active {
   position: relative;
   color: lightgrey;
   font-weight: bold;
+  font-size: xx-large;
 }
 
 /* loading animation */
@@ -114,11 +112,11 @@ button:active {
   content: attr(data-text);
   position: absolute;
   overflow: hidden;
-  max-width: 8rem;
+  max-width: 10rem;
   height: 3rem;
   white-space: nowrap;
   color: #3cf1aa;
-  animation: loading 3s linear;
+  animation: loading 1s ease-out;
 }
 @keyframes loading {
   0% {
