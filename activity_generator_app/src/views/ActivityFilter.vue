@@ -1,14 +1,12 @@
 <template>
   <div class="container">
-    <div class="activity-filter">
-      <div class="result-container">
+      <div class="component-container">
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
         </div>
         <FilterFormComponent v-if="filterForm === true"></FilterFormComponent>
         <ResultComponent :output="output.data" :errored="errored" v-if="(loading === false) && (filterForm === false)"></ResultComponent>
       </div>
-    </div>
   </div>
 </template>
 
@@ -34,16 +32,6 @@ export default {
       filterForm: true,
     };
   },
-  // computed: {
-  //   showForm: function() {
-  //     if((this.loading === false) && (this.filterForm === true)){
-  //       return true
-  //     }
-  //     else{
-  //       return false
-  //     }
-  //   }
-  // },
 };
 </script>
 
@@ -54,15 +42,11 @@ export default {
 
 .container {
   min-width: 14rem;
-  max-width: 22rem;
+  max-width: 30rem;
   padding-top: 5vh;
   padding-left: 10px;
   padding-right: 10px;
   margin: auto;
-}
-
-.result-container {
-  margin-bottom: 0.5rem;
 }
 
 .loading-border{
