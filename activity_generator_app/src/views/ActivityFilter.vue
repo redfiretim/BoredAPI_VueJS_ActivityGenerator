@@ -4,8 +4,15 @@
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
         </div>
-        <FilterFormComponent v-if="filterForm === true"></FilterFormComponent>
-        <ResultComponent :output="output.data" :errored="errored" v-if="(loading === false) && (filterForm === false)"></ResultComponent>
+        <FilterFormComponent 
+          v-if="(filterForm === true) && (loading === false)" 
+          v-on:processForm="runAxiosReq"
+        ></FilterFormComponent>
+        <ResultComponent 
+          :output="output.data" 
+          :errored="errored" 
+          v-if="(loading === false) && (filterForm === false) && (output !== null)"
+        ></ResultComponent>
       </div>
   </div>
 </template>
@@ -14,7 +21,7 @@
 
 
 <script>
-// const axios = require("axios");
+const axios = require("axios");
 import ResultComponent from "../components/ResultComponent";
 import FilterFormComponent from "../components/FilterFormComponent";
 
@@ -30,8 +37,42 @@ export default {
       loading: false,
       errored: false,
       filterForm: true,
+      participants: null,
     };
   },
+  methods: {
+    runAxiosReq: function(participantsValue){
+      console.log(participantsValue + ` <-- parVal in parent`);
+      
+      if((participantsValue > 0) && (participantsValue < 6)){
+        this.participants = `participants=` + participantsValue;
+      }
+
+      // Run Axios request
+      // NEEDS TO RUN LAST!!
+      this.findNewActivity(this.participants)
+
+    },
+    findNewActivity: function(participants) {
+      this.loading = true;
+
+      axios
+        .get("http://www.boredapi.com/api/activity?" + participants)
+        .then(response => {
+          this.output = response;
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+      .finally(() => {
+        this.loading = false;
+        this.filterForm = false;
+
+        console.log(this.output.data.activity + ` <-- output API`);
+        });
+    }
+  }
 };
 </script>
 

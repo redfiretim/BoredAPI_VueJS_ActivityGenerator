@@ -33,10 +33,12 @@ export default {
   name: "FilterFormComponent",
   data: function() {
     return {
-      peopleIcons: [mint, grey, grey, grey, grey],
+      peopleIcons: [grey, grey, grey, grey, grey],
       grey: grey,
       mint: mint,
-      participantsValue: 1,
+      participantsValue: 0,
+      loading: true,
+      errored: false,
     };
   },
   methods: {
@@ -44,11 +46,13 @@ export default {
       this.participantsValue = index + 1;
     },
     processForm: function() {
-      if((this.participantsValue > 5) || (this.participantsValue < 1)){
+      if((this.participantsValue > 5) || (this.participantsValue < 0)){
+
+//FIXME --> should not be an alert, but multifunctional error message on page.
         alert(`Please don't alter the input values!`); // this result should only be possible by manually altering values in browser
       }
       else{
-        this.$emit('processForm');
+        this.$emit('processForm', this.participantsValue);
       }
     },
   },
