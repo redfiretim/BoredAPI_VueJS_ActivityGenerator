@@ -1,21 +1,26 @@
 <template>
-  <div class="container-form">
+  <form class="container-form" id="filter-input-form" @submit.prevent="processForm">
     <div class="form-title">Please aswer these questions.</div>
+    
     <div class="inside-form-container">
+
       <div class="participants-area">
         <div class="participants-label">How many participants do you have?</div>
         <ul class="participants-list">
           <li v-for="(person, index) in peopleIcons" :key="index" :class="index + 'icon'">
-            <input v-model="participantsValue" class="participants-input">
+            <input type="select" v-model="participantsValue" class="participants-input">
             <div class="participants-button" v-on:click="setParticipants(index)">
               <img :src="person" class="participants-img"/>
             </div>
           </li>
         </ul>
       </div>
+
     </div>
-    <button v-on:click="submitForm()">Find activity</button>
-  </div>
+    
+    <button type="submit" class="submit-button">Find activity</button>
+  
+  </form>
 </template>
 
 
@@ -35,9 +40,17 @@ export default {
     };
   },
   methods: {
-    setParticipants(index) {
+    setParticipants: function(index) {
       this.participantsValue = index + 1;
-    }
+    },
+    processForm: function() {
+      if((this.participantsValue > 5) || (this.participantsValue < 1)){
+        alert(`Please don't alter the input values!`); // this result should only be possible by manually altering values in browser
+      }
+      else{
+        this.$emit('processForm');
+      }
+    },
   },
   watch: {
     participantsValue: function(newVal){
@@ -47,7 +60,7 @@ export default {
       for (let j = (newVal); j < 5; j++) {
         this.peopleIcons[j] = this.grey;
       }
-      
+      console.log(this.participantsValue + " <-- parti val");
     }
   }
 };
@@ -105,7 +118,7 @@ button:active {
   grid-column-end: 10;
   grid-row: 2;
   height: 5rem;
-  margin: -1rem;
+  margin: -0.2rem -1.5rem;
 }
 
 .participants-label {
