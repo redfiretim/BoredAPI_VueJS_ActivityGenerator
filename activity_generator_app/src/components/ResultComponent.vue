@@ -47,13 +47,14 @@ export default {
     this.activityData = this.output;
     this.error = this.errored;
     
-    //changes person icon into active mint color according to numer of participants
+    //changes person icon into active mint color according to number of participants
     for (let i = 0; i < this.activityData.participants; i++) {
       this.peopleIcons[i] = this.mint;
     }
 
     //changes accessibility data into percentage for css width usage
-    this.accessPerc = (this.activityData.accessibility * 100);
+    //accessibility value needs to be reversed to display correctly according to BoredAPI documentation
+    this.accessPerc = ((1-this.activityData.accessibility) * 100);
 
     //changes price data into percentage for css width usage
     this.pricePerc = (this.activityData.price * 100);

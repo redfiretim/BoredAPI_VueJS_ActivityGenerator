@@ -62,7 +62,7 @@ export default {
 .container {
   min-width: 14rem;
   max-width: 22rem;
-  padding-top: 5vh;
+  padding-top: 3vh;
   padding-left: 10px;
   padding-right: 10px;
   margin: auto;
@@ -80,6 +80,7 @@ button {
   font-size: xx-large;
   font-weight: bold;
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 button:hover {
