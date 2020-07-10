@@ -36,7 +36,7 @@
           <ul class="minPrice-list">
             <li v-for="(minPriceIcon, index) in minPriceIcons" :key="index" :class="index + 'icon'">
               <input type="select" v-model="minPriceValue" class="minPrice-input">
-              <div class="minPrice-button" v-on:click="setPrice(index)">
+              <div class="minPrice-button" v-on:click="setMinPrice(index)">
                 <img :src="minPriceIcon" class="minPrice-img"/>
               </div>
             </li>
