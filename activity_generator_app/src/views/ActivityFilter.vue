@@ -57,23 +57,26 @@ export default {
       minAccessibility: null,
       minPrice: null,
       maxPrice: null,
+      types: [],
+      typesString: null,
       showResult: false, // this one is for robustness, could have used only output.
     };
   },
   methods: {
-    runAxiosReq: function(participantsValue, accessibilityValue, minPriceValue, maxPriceValue){
-      
+    runAxiosReq: function(participantsValue, accessibilityValue, minPriceValue, maxPriceValue, typesArray){
+
       if((participantsValue > 0) && (participantsValue < 6) && (participantsValue !== null)){
         this.participants = `participants=` + participantsValue;
       }
       if((accessibilityValue >= 0) && (accessibilityValue < 1) && (accessibilityValue !== null)){
-        // Using maxaccessibility because that way the BoredAPI shows activities that
-        // are the chosen value or MORE accessible. 
-        // They have conflicting terms in their documentation.
-        // The say 0 is most accessible but then they use minaccessibility and 
-        // maxaccessibility the other way around. They should change this in the API.
-        // I submitted the issue with Bored API creator.
-        // see: https://github.com/drewthoennes/Bored-API/issues/23
+            // Using maxaccessibility because that way the BoredAPI shows activities that
+            // are the chosen value or MORE accessible. 
+            // They have conflicting terms in their documentation.
+            // The say 0 is most accessible but then they use minaccessibility and 
+            // maxaccessibility the other way around. They should change this in the API.
+            // I submitted the issue with Bored API creator.
+            // see: https://github.com/drewthoennes/Bored-API/issues/23
+            // update: issue was already known, just not a priority.(see repsonse on issue)
         this.minAccessibility = `maxaccessibility=` + accessibilityValue;
       }
       if((minPriceValue >= 0) && (minPriceValue <= 1) && (minPriceValue !== null)) {
@@ -82,19 +85,33 @@ export default {
       if((maxPriceValue >= 0) && (maxPriceValue <= 1) && (maxPriceValue !== null)){
         this.maxPrice = `maxprice=` + maxPriceValue;
       }
+      if(typesArray !== []){
+        
+        // add string parts for url request
+        this.types.push(`type=` + typesArray[0]); 
+
+        if(typesArray.length > 1){
+          for(let i = 1 ; i < typesArray.length ; i++){
+            this.types.push(`&type=` + typesArray[i]);
+          }
+        } 
+
+        // convert to string and remove commas
+        this.typesString = this.types.join('')
+      }
 
       // Run Axios request
       // NEEDS TO RUN LAST!!
-      this.findNewActivity(this.participants, this.minAccessibility, this.minPrice, this.maxPrice)
+      this.findNewActivity(this.participants, this.minAccessibility, this.minPrice, this.maxPrice, this.typesString)
 
     },
-    findNewActivity: function(participants, minAccessibility, minPrice, maxPrice) {
+    findNewActivity: function(participants, minAccessibility, minPrice, maxPrice, typesString) {
       this.loading = true;
 
-      console.log("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice + ` <-- GET URL`)
+      console.log("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice +`&`+ typesString + ` <-- GET URL`)
 
       axios
-        .get("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice)
+        .get("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice +`&`+ typesString)
         .then(response => {
           this.output = response;
         })
@@ -110,10 +127,16 @@ export default {
         console.log(this.output.data.activity + ` <-- output API`);
         });
     },
+    // show filter component AND reset all values
     goToFilter: function(){
       this.filterForm = true;
       this.output = null;
       this.showResult = false;
+      this.minAccessibility = null;
+      this.minPrice = null;
+      this.maxPrice = null
+      this.types = [];
+      this.typesString = null;
     }
   }
 };

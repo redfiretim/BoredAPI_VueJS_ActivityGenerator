@@ -55,7 +55,7 @@
           </ul>
         </div>
       </div>
-
+<!-- FIXME >> This list could be refactored and generated from a data array -->
       <div class="type-area">
         <div class="type-label">Select caterory(s):</div>
 
@@ -188,6 +188,7 @@ export default {
       // store index to determine icon color
       this.accessibilityIndex = index + 1;
     },
+//FIXME --> these 2 functions below could be refactored.
     setMinPrice: function(index) {
       let unroundedValue = 0.2 * (index + 1);
       let roundedValue = Math.floor((unroundedValue * 10)); // use math.floor() because this value is not reversed.
@@ -209,11 +210,12 @@ export default {
       }
       else{
         // Send the event and all values to the parent component
-        this.$emit('processForm', this.participantsValue, this.accessibilityValue, this.minPriceValue, this.maxPriceValue);
+        this.$emit('processForm', this.participantsValue, this.accessibilityValue, this.minPriceValue, this.maxPriceValue, this.types);
       }
     },
   },
   watch: {
+//FIXME --> these 2 functions below could be refactored.
     participantsValue: function(newVal){
       for (let i = 0; i < newVal; i++) {
         this.peopleIcons[i] = this.mint;
@@ -230,6 +232,7 @@ export default {
         this.wheelIcons[j] = this.wheelGrey;
       }
     },
+//FIXME --> these 2 functions below could be refactored.
     minPriceIndex: function(newVal){
       for (let i = 0; i < newVal; i++) {
         this.minPriceIcons[i] = this.euroMint;
@@ -256,10 +259,6 @@ export default {
         this.maxPriceIndex = this.minPriceIndex;
       }
     },
-    // JUST FOR TESTING
-    types: function(newVal){
-      console.log(newVal + ` <-- Types array`);
-    }
   }
 };
 </script>
@@ -312,6 +311,8 @@ button:active {
   column-gap: 5px;
   margin-top: -1rem;
 }
+
+
 
 
 
@@ -380,6 +381,7 @@ button:active {
 
 .type-list{
   text-align: left;
+  margin-left: 0.3rem;
 }
 
 .minPrice-label, .maxPrice-label{
@@ -410,6 +412,9 @@ button:active {
 }
 /* participants & accessibility & price END  */
 
+
+
+
 /* adjust for small screens */
 @media only screen and (max-width: 510px) {
   .price-area{
@@ -428,6 +433,10 @@ button:active {
     max-height: 50rem;
   }
 }
+
+
+
+
 
 /* CUSTOM CHECKMARK START */
 /* Customize the label (the container) */
@@ -467,6 +476,10 @@ button:active {
 /* On mouse-over, add a grey background color */
 .checkmark-container:hover input ~ .checkmark {
   background-color: #a7ffdc;
+}
+
+.checkmark-container:hover {
+  text-decoration: underline;
 }
 
 /* When the checkbox is checked, add a blue background */
