@@ -36,7 +36,7 @@
           <ul class="minPrice-list">
             <li v-for="(minPriceIcon, index) in minPriceIcons" :key="index" :class="index + 'icon'">
               <input type="select" v-model="minPriceValue" class="minPrice-input">
-              <div class="minPrice-button" v-on:click="setMinPrice(index)">
+              <div class="minPrice-button" v-on:click="setPrice(index)">
                 <img :src="minPriceIcon" class="minPrice-img"/>
               </div>
             </li>
@@ -54,45 +54,19 @@
             </li>
           </ul>
         </div>
+
       </div>
-<!-- FIXME >> This list could be refactored and generated from a data array -->
+
       <div class="type-area">
         <div class="type-label">Select caterory(s):</div>
 
         <div class="left-type-area">
           <ul class="type-list">
-            <li>
-              <label for="education" class="checkmark-container">
-                education
-                <input type="checkbox" id="education" value="education" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li> 
-              <label for="recreational" class="checkmark-container">
-                recreational
-                <input type="checkbox" id="recreational" value="recreational" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="social" class="checkmark-container">
-                social
-                <input type="checkbox" id="social" value="social" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="diy" class="checkmark-container">
-                diy
-                <input type="checkbox" id="diy" value="diy" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="charity" class="checkmark-container">
-                charity
-                <input type="checkbox" id="charity" value="charity" v-model="types">
+            <!-- generate first part of list according to categories data array -->
+            <li v-for="category in categories.slice(0,5)" :key="category">
+              <label :for=category class="checkmark-container">
+                {{category}}
+                <input type="checkbox" :id=category :value=category v-model="types">
                 <span class="checkmark"></span>
               </label>
             </li>
@@ -101,36 +75,17 @@
 
         <div class="right-type-area">
           <ul class="type-list">
-            <li>
-              <label for="cooking" class="checkmark-container">
-                cooking
-                <input type="checkbox" id="cooking" value="cooking" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="relaxation" class="checkmark-container">
-                relaxation
-                <input type="checkbox" id="relaxation" value="relaxation" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="music" class="checkmark-container">
-                music
-                <input type="checkbox" id="music" value="music" v-model="types">
-                <span class="checkmark"></span>
-              </label>
-            </li>
-            <li>
-              <label for="busywork" class="checkmark-container">
-                busywork
-                <input type="checkbox" id="busywork" value="busywork" v-model="types">
+            <!-- generate second part of list according to categories data array -->
+            <li v-for="category in categories.slice(5,9)" :key="category">
+              <label :for=category class="checkmark-container">
+                {{category}}
+                <input type="checkbox" :id=category :value=category v-model="types">
                 <span class="checkmark"></span>
               </label>
             </li>
           </ul>
         </div>
+        
       </div>
 
     </div>
@@ -164,6 +119,7 @@ export default {
       wheelGrey: wheelGrey,
       euroMint: euroMint,
       euroGrey: euroGrey,
+      categories: ["education", "recreational", "social", "diy", "charity", "relaxation", "cooking", "music", "busywork"],
       participantsValue: 0,
       accessibilityValue: null, // if 0 is used, component won't register change.
       accessibilityIndex: 0,
@@ -188,7 +144,13 @@ export default {
       // store index to determine icon color
       this.accessibilityIndex = index + 1;
     },
-//FIXME --> these 2 functions below could be refactored.
+//FIXME --> When trying to refactor the 2 methods below, I got no-unused-vars ESLINT error. haven't found solution yet.
+    // setPrice: function(index, priceValue, priceIndex) {
+    //   let unroundedValue = 0.2 * (index + 1);
+    //   let roundedValue = Math.floor((unroundedValue * 10)); // use math.floor() because this value is not reversed.
+    //   priceValue = (roundedValue / 10);
+    //   priceIndex = index + 1;
+    // },
     setMinPrice: function(index) {
       let unroundedValue = 0.2 * (index + 1);
       let roundedValue = Math.floor((unroundedValue * 10)); // use math.floor() because this value is not reversed.
@@ -201,12 +163,41 @@ export default {
       this.maxPriceValue = (roundedValue / 10);
       this.maxPriceIndex = index + 1;
     },
-    processForm: function() {
-      if((this.participantsValue > 5) || (this.participantsValue < 0)){
-//FIXME --> extend this with all the input areas
+    checkTypes: function(dataArray, inputArray) {
+      let success = dataArray.every((val) => inputArray.includes(val));
+      return success;
+    }, 
+    ratingIconChanger: function(newVal, array, iconMint, iconGrey) {
+      for (let i = 0; i < newVal; i++) {
+        array[i] = iconMint;
+      }
+      for (let j = (newVal); j < 5; j++) {
+        array[j] = iconGrey;
+      }
+    },
+    priceIndexChanger: function(newVal, array, iconMint, iconGrey) {
+      this.ratingIconChanger(newVal, array, iconMint, iconGrey);
 
-//FIXME --> should not be an alert, but multifunctional error message on page.
-        alert(`Please don't alter the input values!`); // this result should only be possible by manually altering values in browser
+      // create connection/dependency of minPrice to maxPrice
+      if((this.maxPriceValue < this.minPriceValue) && (this.maxPriceValue !== null)){
+        this.maxPriceValue = this.minPriceValue;
+        this.maxPriceIndex = this.minPriceIndex;
+      }
+    },
+    processForm: function() {
+      // check if values are not out of bounds for API
+      if(
+          ((this.participantsValue > 5) || (this.participantsValue < 0))
+            ||
+          ((this.accessibilityValue > 1) || (this.accessibilityValue < 0))
+            ||
+          ((this.minPriceValue > 1) || (this.minPriceValue < 0))
+            ||
+          ((this.maxPriceValue > 1) || (this.maxPriceValue < 0))
+            ||
+          (this.checkTypes(this.categories, this.types) === false)){
+
+        alert(`Please don't alter the input values!`); // this result should only be possible by manually altering values in browser dev tools.
       }
       else{
         // Send the event and all values to the parent component
@@ -215,49 +206,18 @@ export default {
     },
   },
   watch: {
-//FIXME --> these 2 functions below could be refactored.
+    // These watchers control the Icon colors on clicks and bind minPrice to maxPrice.
     participantsValue: function(newVal){
-      for (let i = 0; i < newVal; i++) {
-        this.peopleIcons[i] = this.mint;
-      }
-      for (let j = (newVal); j < 5; j++) {
-        this.peopleIcons[j] = this.grey;
-      }
+      this.ratingIconChanger(newVal, this.peopleIcons, this.mint, this.grey);
     },
     accessibilityIndex: function(newVal){
-      for (let i = 0; i < newVal; i++) {
-        this.wheelIcons[i] = this.wheelMint;
-      }
-      for (let j = (newVal); j < 5; j++) {
-        this.wheelIcons[j] = this.wheelGrey;
-      }
+      this.ratingIconChanger(newVal, this.wheelIcons, this.wheelMint, this.wheelGrey);
     },
-//FIXME --> these 2 functions below could be refactored.
     minPriceIndex: function(newVal){
-      for (let i = 0; i < newVal; i++) {
-        this.minPriceIcons[i] = this.euroMint;
-      }
-      for (let j = (newVal); j < 5; j++) {
-        this.minPriceIcons[j] = this.euroGrey;
-      }
-      //create connection/dependency of minPrice to maxPrice
-      if((this.maxPriceValue < this.minPriceValue) && (this.maxPriceValue !== null)){
-        this.maxPriceValue = this.minPriceValue;
-        this.maxPriceIndex = this.minPriceIndex;
-      }
+      this.priceIndexChanger(newVal, this.minPriceIcons, this.euroMint, this.euroGrey);
     },
     maxPriceIndex: function(newVal){
-      for (let i = 0; i < newVal; i++) {
-        this.maxPriceIcons[i] = this.euroMint;
-      }
-      for (let j = (newVal); j < 5; j++) {
-        this.maxPriceIcons[j] = this.euroGrey;
-      }
-      //create connection/dependency of maxPrice to minPrice
-      if((this.maxPriceValue < this.minPriceValue) && (this.maxPriceValue !== null)){
-        this.maxPriceValue = this.minPriceValue;
-        this.maxPriceIndex = this.minPriceIndex;
-      }
+      this.priceIndexChanger(newVal, this.maxPriceIcons, this.euroMint, this.euroGrey);
     },
   }
 };
