@@ -33,6 +33,7 @@ You need the following for this project:
 - Vue CLI (command line interface)
 (I used version 4.4.4)
 - Vue Router
+- Axios
 (I used version 3.2.0)
 - optional plugins
     - VueJS browser plugin
