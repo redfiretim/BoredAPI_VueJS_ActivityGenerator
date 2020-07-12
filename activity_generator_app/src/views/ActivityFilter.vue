@@ -2,6 +2,8 @@
   <div class="container">
       <div class="component-container">
         
+        <div class="error-text" v-if="errored === true">Oops, something went wrong!</div>
+
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
         </div>
@@ -27,8 +29,8 @@
                 (showResult === true)"
           >
             Find a new activity
-          </button>
-      
+        </button>
+  
       </div>
   </div>
 </template>
@@ -85,8 +87,10 @@ export default {
       if((maxPriceValue >= 0) && (maxPriceValue <= 1) && (maxPriceValue !== null)){
         this.maxPrice = `maxprice=` + maxPriceValue;
       }
-      if(typesArray !== []){
-        
+
+      // if check only works if you put [0] after typesArray!
+      if(typesArray[0] !== undefined){
+
         // add string parts for url request
         this.types.push(`type=` + typesArray[0]); 
 
@@ -95,36 +99,35 @@ export default {
             this.types.push(`&type=` + typesArray[i]);
           }
         } 
-
         // convert to string and remove commas
         this.typesString = this.types.join('')
+      }
+      else{
+        this.typesString = `null`;
       }
 
       // Run Axios request
       // NEEDS TO RUN LAST!!
       this.findNewActivity(this.participants, this.minAccessibility, this.minPrice, this.maxPrice, this.typesString)
-
     },
     findNewActivity: function(participants, minAccessibility, minPrice, maxPrice, typesString) {
       this.loading = true;
-
-      console.log("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice +`&`+ typesString + ` <-- GET URL`)
 
       axios
         .get("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice +`&`+ typesString)
         .then(response => {
           this.output = response;
+          this.errored = false;
         })
         .catch(error => {
           console.log(error);
           this.errored = true;
+          alert(`Sorry, something went wrong with the server!`);
         })
       .finally(() => {
         this.loading = false;
         this.filterForm = false;
         this.showResult = true;
-
-        console.log(this.output.data.activity + ` <-- output API`);
         });
     },
     // show filter component AND reset all values
@@ -146,6 +149,12 @@ export default {
 
 
 <style scoped>
+
+.error-text{
+  color: red;
+  font-weight: bolder;
+  margin-bottom: 2rem;
+}
 
 .container {
   min-width: 14rem;

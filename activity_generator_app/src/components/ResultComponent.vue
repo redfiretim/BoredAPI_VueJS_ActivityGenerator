@@ -1,6 +1,9 @@
 <template>
   <div class="container-result">
-    <div class="activity-title">{{activityData.activity}}</div>
+
+    <div class="activity-title" v-if="error === false">{{activityData.activity}}</div>
+    <div class="activity-title" v-if="error === true">{{output.error}}</div>
+
     <div class="inside-result-container">
       <div class="activity-label">{{activityData.type}}</div>
       <div class="participants-label">Participants:</div>
@@ -19,6 +22,7 @@
         <div class="price-bar-inner" :style="{ width: pricePerc + '%'}"></div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -35,29 +39,34 @@ export default {
   data: function() {
     return {
       activityData: {},
-      error: Boolean,
+      error: false,
       peopleIcons: [grey, grey, grey, grey, grey],
       grey: grey,
       mint: mint,
       accessPerc: null,
-      pricePerc: null
+      pricePerc: null,
     };
   },
   mounted: function() {
-    this.activityData = this.output;
-    this.error = this.errored;
-    
-    //changes person icon into active mint color according to number of participants
-    for (let i = 0; i < this.activityData.participants; i++) {
-      this.peopleIcons[i] = this.mint;
+    if(!this.output.error){      
+      this.activityData = this.output;
+      this.error = this.errored;
+      
+      //changes person icon into active mint color according to number of participants
+      for (let i = 0; i < this.activityData.participants; i++) {
+        this.peopleIcons[i] = this.mint;
+      }
+
+      //changes accessibility data into percentage for css width usage
+      //accessibility value needs to be reversed to display correctly according to BoredAPI documentation
+      this.accessPerc = ((1-this.activityData.accessibility) * 100);
+
+      //changes price data into percentage for css width usage
+      this.pricePerc = (this.activityData.price * 100);
     }
-
-    //changes accessibility data into percentage for css width usage
-    //accessibility value needs to be reversed to display correctly according to BoredAPI documentation
-    this.accessPerc = ((1-this.activityData.accessibility) * 100);
-
-    //changes price data into percentage for css width usage
-    this.pricePerc = (this.activityData.price * 100);
+    else{
+      this.error = true;
+    }
   },
 };
 </script>
@@ -66,6 +75,13 @@ export default {
 
 
 <style scoped>
+
+.output-error{
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: -1rem;
+}
+
 .container-result {
   display: grid;
   grid-template-rows: repeat(11, 1fr);

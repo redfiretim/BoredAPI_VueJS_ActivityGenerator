@@ -163,8 +163,8 @@ export default {
       this.maxPriceValue = (roundedValue / 10);
       this.maxPriceIndex = index + 1;
     },
-    checkTypes: function(dataArray, inputArray) {
-      let success = dataArray.every((val) => inputArray.includes(val));
+    checkTypes: function(inputArray, dataArray) {
+      let success = inputArray.every((val) => dataArray.includes(val));
       return success;
     }, 
     ratingIconChanger: function(newVal, array, iconMint, iconGrey) {
@@ -195,7 +195,7 @@ export default {
             ||
           ((this.maxPriceValue > 1) || (this.maxPriceValue < 0))
             ||
-          (this.checkTypes(this.categories, this.types) === false)){
+          (this.checkTypes(this.types, this.categories) === false)){
 
         alert(`Please don't alter the input values!`); // this result should only be possible by manually altering values in browser dev tools.
       }

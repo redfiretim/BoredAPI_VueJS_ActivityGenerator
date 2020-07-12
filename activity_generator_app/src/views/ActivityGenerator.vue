@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div class="activity-generator">
+
+      <div class="error-text" v-if="errored === true">Oops, something went wrong!</div>
+
       <div class="result-container">
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
@@ -30,7 +33,7 @@ export default {
     return {
       output: null,
       loading: true,
-      errored: false
+      errored: false,
     };
   },
   mounted: function() {
@@ -44,6 +47,7 @@ export default {
         .get("http://www.boredapi.com/api/activity/")
         .then(response => {
           this.output = response;
+          this.errored = false;
         })
         .catch(error => {
           console.log(error);
@@ -59,6 +63,12 @@ export default {
 
 
 <style scoped>
+.error-text{
+  color: red;
+  font-weight: bolder;
+  margin-bottom: 2rem;
+}
+
 .container {
   min-width: 14rem;
   max-width: 22rem;
