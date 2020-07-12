@@ -4,8 +4,8 @@
 
 ## What this application is about:
 ```
-This Front-end web application lets you randomly generate and activity to do when you are bored.
-Is also lets you set parameters to find more specific types of activities.
+This Front-end web application lets you randomly generate an activity to do when you are bored.
+It also lets you set parameters to find more specific types of activities.
 
 It uses the Bored API to generate the data.
 Axios to handle the requests and
@@ -61,45 +61,5 @@ npm install
 npm run serve
 
 
-
-
-
-------------------------------------------------------
-Install steps as NEW project  (not recommended):
-------------------------------------------------------
-
-<!-- Make sure you have NPM installed or download and install from: https://nodejs.org -->
-
-<!-- Make sure you have Git installed or download and install from: https://git-scm.com/downloads -->
-
-<!-- install VueJS Command Line Interface -->
-npm install -g @vue/cli
-
-<!-- install VueJS -->
-npm install vue
-    
-<!-- create new project -->
-vue create activity_generator_project
-    - choose "Vue Router" at options at least.
-
-<!-- install Axios for XMLHttpRequests requests -->
-cd activity_generator_app
-    npm install axios
-
-<!-- Remove al files except the 'node_modules' folder -->
-
-<!-- Clone github repository to this directory -->
-
-<!-- Because I put the project one level deeper and this is an unusual way to install,
-you have to copy the 'node_modules' folder you created earlier into 
-the 'BoredAPI_VueJS_ActivityGenerator/activity_generator_app' folder for it to work. -->
-
-<!-- Go to correct folder in terminal -->
-'cd' into the ../BoredAPI_VueJS_ActivityGenerator/activity_generator_app folder
-
-<!-- Run application: -->
-npm run serve
-
-```
 
 
