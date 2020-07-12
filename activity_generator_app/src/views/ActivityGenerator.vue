@@ -2,17 +2,26 @@
   <div class="container">
     <div class="activity-generator">
 
+      <!-- only shows if http req gives an error -->
       <div class="error-text" v-if="errored === true">Oops, something went wrong!</div>
 
       <div class="result-container">
+        
+        <!-- Loading Screen for processing request -->
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
         </div>
+
+        <!-- Result render -->
         <ResultComponent :output="output.data" :errored="errored" v-if="loading === false"></ResultComponent>
+      
       </div>
+      
+      <!-- Button to do another request -->
       <router-link to="/activitygenerator" v-if="loading === false">
         <button v-on:click="generateNewActivity()">Generate activity</button>
       </router-link>
+    
     </div>
   </div>
 </template>

@@ -4,6 +4,19 @@
 
 ## What this application is about:
 ```
+This Front-end web application lets you randomly generate and activity to do when you are bored.
+Or lets you set parameter to find more specific types of activities.
+
+It uses the Bored API to generate the data.
+Axios to handle the requests and
+VueJS with Vue Router for the Front-end code.
+
+The initial design that was made before coding is also supplied to
+show some of my process.
+
+Copyright: ©TimScheepens
+
+Bored API: https://www.boredapi.com/
 
 ```
 
@@ -49,6 +62,8 @@ cd activity_generator_app
 
 <!-- Clone github repository to this directory  (This step needs testing before comfirmation on accuracy!!)  -->
 
+<!-- Run application: -->
+npm run serve
 
 ```
 

@@ -1,26 +1,33 @@
 <template>
   <div class="container-result">
 
+    <!-- error messages -->
     <div class="activity-title" v-if="error === false">{{activityData.activity}}</div>
     <div class="activity-title" v-if="error === true">{{output.error}}</div>
 
+    <!-- results -->
     <div class="inside-result-container">
+
       <div class="activity-label">{{activityData.type}}</div>
       <div class="participants-label">Participants:</div>
+
       <ul class="participants_icons">
         <!-- array index used, because no other unique way to identify -->
         <li v-for="(person, index) in peopleIcons" :key="index" :class="index + 'icon'">
           <img :src="person" />
         </li>
       </ul>
+
       <div class="accessibility-label">Accessibility:</div>
       <div class="access-bar-container">
         <div class="access-bar-inner" :style="{ width: accessPerc + '%'}"></div>
       </div>
+
       <div class="price-label">Price:</div>
       <div class="price-bar-container">
         <div class="price-bar-inner" :style="{ width: pricePerc + '%'}"></div>
       </div>
+
     </div>
 
   </div>
@@ -124,6 +131,9 @@ export default {
 .participants_icons{
   display: contents;
 }
+
+/* Refactor possible */
+/* This part could be done better like I did later in FilterFormComponent.vue !*/
 
 /* places list items on correct grid location */
 .participants_icons>li:first-child{

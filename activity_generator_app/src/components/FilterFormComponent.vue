@@ -1,9 +1,11 @@
 <template>
+  <!-- START FORM -->
   <form class="container-form" id="filter-input-form" @submit.prevent="processForm">
     <div class="form-title">Please answer these questions.</div>
     
     <div class="inside-form-container">
 
+      <!-- PARTICIPANTS SELECTION -->
       <div class="participants-area">
         <div class="participants-label">How many participants do you have?</div>
         <ul class="participants-list">
@@ -16,6 +18,7 @@
         </ul>
       </div>
 
+      <!-- MINIMUM ACCESSIBILITY SELECTION -->
       <div class="accessibility-area">
         <div class="accessibility-label">Which minimum accessibility rating do you want?</div>
         <ul class="accessibility-list">
@@ -28,6 +31,7 @@
         </ul>
       </div>
 
+      <!-- PRICE RANGE -->
       <div class="price-area">
         <div class="price-label">What price range are you searching for?</div>
 
@@ -57,6 +61,7 @@
 
       </div>
 
+      <!-- CATEGORY MULTIPLE CHOICE -->
       <div class="type-area">
         <div class="type-label">Select caterory(s):</div>
 
@@ -91,8 +96,9 @@
     </div>
     
     <button type="submit" class="submit-button">Find activity</button>
-  
+
   </form>
+  <!-- END FORM -->
 </template>
 
 
@@ -119,6 +125,7 @@ export default {
       wheelGrey: wheelGrey,
       euroMint: euroMint,
       euroGrey: euroGrey,
+      // hardcoded al possible categories according to Bored API
       categories: ["education", "recreational", "social", "diy", "charity", "relaxation", "cooking", "music", "busywork"],
       participantsValue: 0,
       accessibilityValue: null, // if 0 is used, component won't register change.
@@ -144,7 +151,7 @@ export default {
       // store index to determine icon color
       this.accessibilityIndex = index + 1;
     },
-//FIXME --> When trying to refactor the 2 methods below, I got no-unused-vars ESLINT error. haven't found solution yet.
+//FIXME --> When trying to refactor the 2 methods below, I got no-unused-vars ESLINT error. haven't found good solution yet.
     // setPrice: function(index, priceValue, priceIndex) {
     //   let unroundedValue = 0.2 * (index + 1);
     //   let roundedValue = Math.floor((unroundedValue * 10)); // use math.floor() because this value is not reversed.

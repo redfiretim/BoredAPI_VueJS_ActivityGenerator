@@ -1,5 +1,8 @@
 # activity_generator_app
 
+See for more detailed information the README file next 
+to the initial design a level higher in the file structure.
+
 ## Project setup
 ```
 npm install

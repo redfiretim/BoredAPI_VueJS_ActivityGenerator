@@ -2,17 +2,21 @@
   <div class="container">
       <div class="component-container">
         
+        <!-- only shows if http req gives an error -->
         <div class="error-text" v-if="errored === true">Oops, something went wrong!</div>
 
+        <!-- Loading Screen for processing request -->
         <div class="loading-border" v-if="loading === true">
           <div class="loading-msg" data-text="Loading...">Loading...</div>
         </div>
         
+        <!-- Loads questionnaire / filter component  -->
         <FilterFormComponent 
           v-if="(filterForm === true) && (loading === false)" 
           v-on:processForm="runAxiosReq"
         ></FilterFormComponent>
         
+        <!-- Renders Result after request -->
         <ResultComponent 
           :output="output.data" 
           :errored="errored" 
@@ -22,6 +26,7 @@
                 (showResult === true)"
         ></ResultComponent>
         
+        <!-- Go back to questionnaire component -->
         <button 
           v-on:click="goToFilter()" 
           v-if="(filterForm === false) && 
@@ -65,6 +70,8 @@ export default {
     };
   },
   methods: {
+    // Checks if request parameters need to be set or kept as null or default.
+    // When everything is ok, run axios request
     runAxiosReq: function(participantsValue, accessibilityValue, minPriceValue, maxPriceValue, typesArray){
 
       if((participantsValue > 0) && (participantsValue < 6) && (participantsValue !== null)){
@@ -110,10 +117,12 @@ export default {
       // NEEDS TO RUN LAST!!
       this.findNewActivity(this.participants, this.minAccessibility, this.minPrice, this.maxPrice, this.typesString)
     },
+    // Actual axios request part
     findNewActivity: function(participants, minAccessibility, minPrice, maxPrice, typesString) {
       this.loading = true;
 
       axios
+        // parameters set as 'null' are ignored by API
         .get("http://www.boredapi.com/api/activity?" + participants +`&`+ minAccessibility +`&`+ minPrice +`&`+ maxPrice +`&`+ typesString)
         .then(response => {
           this.output = response;
@@ -130,7 +139,7 @@ export default {
         this.showResult = true;
         });
     },
-    // show filter component AND reset all values
+    // show filter / questionnaire component AND reset all values
     goToFilter: function(){
       this.filterForm = true;
       this.output = null;

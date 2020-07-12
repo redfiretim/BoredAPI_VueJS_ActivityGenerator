@@ -8,6 +8,8 @@ Vue.use(VueRouter);
 
 // Hard coded routes because this app is really small.
 // Should make it variable with parameters in bigger app.
+// Did not create a route for questionnaire and result, which makes
+// 'Help me find an activity' button on menu bar unresponsive. Could improve on that.
 const routes = [
   {
     path: "/",

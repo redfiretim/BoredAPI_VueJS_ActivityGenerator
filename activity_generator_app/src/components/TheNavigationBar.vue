@@ -1,11 +1,14 @@
 <template>
   <div>
+    
     <div class="header">
+      <!-- Home Button area -->
       <router-link to="/">
         <h2>Activity Generator</h2>
         <h5>VueJS - Axios - Bored API</h5>
       </router-link>
     </div>
+
     <div class="navigation-bar">
       <ul>
         <li>
